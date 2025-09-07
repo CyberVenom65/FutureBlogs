@@ -1,71 +1,130 @@
-# Overview
 
-FutureBlogs is a modern full-stack blogging platform built with React, Express.js, and PostgreSQL. The application allows users to create accounts, write and publish blog posts, and browse content from other authors. It features a sleek, modern UI with dark theme styling and includes comprehensive authentication, content management, and social features.
+# FutureBlogs
 
-# User Preferences
+FutureBlogs is a modern, full-stack blogging platform built with React, Express.js, PostgreSQL, and Supabase. It features a beautiful UI, robust authentication, and a seamless writing and reading experience.
 
-Preferred communication style: Simple, everyday language.
+---
 
-# System Architecture
+## Table of Contents
 
-## Frontend Architecture
-- **Framework**: React 18 with TypeScript using Vite as the build tool
-- **Routing**: Wouter for lightweight client-side routing
-- **State Management**: Zustand for authentication state with persistence middleware
-- **UI Components**: Shadcn/ui component library with Radix UI primitives
-- **Styling**: Tailwind CSS with custom design system featuring dark theme, glass morphism effects, and gradient styling
-- **Data Fetching**: TanStack React Query for server state management and caching
-- **Form Handling**: React Hook Form with Zod validation schemas
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Scripts](#scripts)
+- [API Overview](#api-overview)
+- [Database Schema](#database-schema)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Backend Architecture
-- **Runtime**: Node.js with Express.js framework
-- **Database ORM**: Drizzle ORM with PostgreSQL dialect
-- **Authentication**: bcrypt for password hashing with session-based auth
-- **API Design**: RESTful API with JSON responses and comprehensive error handling
-- **Development Setup**: Hot module replacement with Vite integration in development mode
+---
 
-## Database Design
-- **Users Table**: Stores user credentials, profile information, and timestamps
-- **Blog Posts Table**: Contains post content, metadata, author relationships, and publication status
-- **Schema Validation**: Zod schemas for type-safe data validation shared between client and server
-- **Relationships**: Foreign key constraints between users and blog posts
+## Features
 
-## Authentication System
-- **Registration/Login**: Email and password-based authentication
-- **Password Security**: bcrypt hashing with salt rounds
-- **Session Management**: Persistent authentication state stored in browser
-- **Route Protection**: Client-side route guards for authenticated pages
+- User registration and login (Supabase Auth)
+- Create, edit, and delete blog posts
+- Browse, search, and filter posts by category
+- Like and share posts
+- Responsive, modern UI with dark mode
+- Type-safe backend and frontend with shared Zod schemas
+- Serverless PostgreSQL (Neon) and Drizzle ORM
+- Real-time updates with React Query
 
-## Data Storage Strategy
-- **Primary Storage**: PostgreSQL database with Neon serverless hosting
-- **Development Storage**: In-memory storage implementation for development/testing
-- **ORM Benefits**: Type-safe database operations with automatic migrations support
-- **Connection Management**: Database connection pooling and environment-based configuration
+---
 
-# External Dependencies
+## Tech Stack
 
-## Database Services
-- **Neon Database**: Serverless PostgreSQL hosting service
-- **Connection**: Uses `@neondatabase/serverless` driver for database connectivity
+**Frontend:**
+- React 18 + TypeScript
+- Vite (build tool)
+- Wouter (routing)
+- Zustand (state management)
+- TanStack React Query (data fetching/caching)
+- Tailwind CSS (styling)
+- Shadcn/ui & Radix UI (UI components)
+- Lucide React (icons)
 
-## UI and Styling
-- **Radix UI**: Comprehensive set of accessible, unstyled UI primitives
-- **Tailwind CSS**: Utility-first CSS framework for styling
-- **Lucide React**: Modern icon library for consistent iconography
-- **Google Fonts**: Inter font family for typography
+**Backend:**
+- Node.js + Express.js
+- Drizzle ORM (PostgreSQL)
+- Supabase (auth & database)
+- Zod (validation)
+- dotenv (env management)
 
-## Development Tools
-- **Vite**: Fast build tool and development server
-- **TypeScript**: Static type checking and enhanced developer experience
-- **ESBuild**: Fast JavaScript bundler for production builds
+**Other:**
+- ESBuild (server bundling)
+- PostCSS, Tailwind plugins
+- Neon (serverless PostgreSQL)
 
+---
 
-## Form and Validation
-- **React Hook Form**: Performant form library with minimal re-renders
-- **Zod**: TypeScript-first schema validation library
-- **Hookform Resolvers**: Integration between React Hook Form and Zod
+## Project Structure
 
-## State Management and Data Fetching
-- **Zustand**: Lightweight state management with TypeScript support
-- **TanStack React Query**: Powerful data synchronization and caching library
-- **Persistence**: Browser storage integration for authentication state
+```
+FutureBlogs/
+│
+├── server/           # Express server, API routes, storage logic
+│   ├── index.ts
+│   ├── routes.ts
+│   ├── storage.ts
+│   └── dotenv-loader.ts
+│
+├── src/              # Frontend React app
+│   ├── components/   # UI and feature components
+│   ├── hooks/        # Custom React hooks
+│   ├── lib/          # API, auth, utilities
+│   ├── pages/        # Page components (home, dashboard, auth, etc.)
+│   └── assets/       # Static assets
+│
+├── shared/           # Shared types and Zod schemas
+│   └── schema.ts
+│
+├── migrations/       # Drizzle migration files
+│
+├── index.html        # App entry point
+├── package.json      # Project metadata and scripts
+├── tsconfig.json     # TypeScript config
+├── vite.config.ts    # Vite config
+├── drizzle.config.ts # Drizzle ORM config
+└── README.md
+```
+
+---
+
+## API Overview
+
+- `GET /api/posts` — List all published posts
+- `GET /api/posts/:id` — Get a single post by ID
+- `GET /api/posts/my` — List posts by the authenticated user
+- `POST /api/posts` — Create a new post (auth required)
+- `PUT /api/posts/:id` — Update a post (auth required)
+- `DELETE /api/posts/:id` — Delete a post (auth required)
+
+Authentication is handled via Supabase Auth. Pass the user's token in the `Authorization` header.
+
+---
+
+## Database Schema
+
+See `shared/schema.ts` for the full Drizzle ORM schema and Zod validation.
+
+**Blog Posts Table:**
+- `id` (UUID, PK)
+- `userId` (UUID, FK)
+- `author` (string)
+- `title` (string)
+- `content` (string)
+- `excerpt` (string)
+- `category` (string)
+- `imageUrl` (string, optional)
+- `published` (boolean)
+- `createdAt` (timestamp)
+- `updatedAt` (timestamp)
+
+---
+
+## License
+
+MIT
+
+---
