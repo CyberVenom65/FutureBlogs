@@ -125,6 +125,7 @@ See `shared/schema.ts` for the full Drizzle ORM schema and Zod validation.
 
 ## License
 
-MIT
+Eclipse Public License - v 2.0
 
 ---
+
